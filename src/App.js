@@ -9,6 +9,7 @@ import './App.css'
 function App() {
 
   const [notes, setNotes] = useState(_notes)
+  const [showAll, setShowAll] = useState(true)
 
   useEffect(()=>{
     // do something here
@@ -23,10 +24,17 @@ function App() {
     }])
   }
 
+  const toggleShowAll = () => {
+    setShowAll((prev) => !prev)
+  }
+
+  const filteredNotes = showAll ? notes : notes.filter(n => n.important===true)
+
   return (
     <div className="App">
       <h1>My Notes:</h1>
-      <NotesList notes={notes} />
+      <button onClick={toggleShowAll}>{showAll ? 'Show only importants' : 'Show all'}</button>
+      <NotesList notes={filteredNotes} />
       <NewNote clickOnButton={handleNewNoteClick} />      
     </div>
   )
