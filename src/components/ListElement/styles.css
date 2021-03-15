@@ -1,0 +1,12 @@
+.list-item {
+  color: grey;
+  list-style: none; 
+  text-align: left;
+} 
+.separator {
+  height: 1;
+  padding-top: 10px;
+  margin-bottom: 10px;
+  width: 90%;
+  border-bottom: lightgrey solid 1px;
+}
