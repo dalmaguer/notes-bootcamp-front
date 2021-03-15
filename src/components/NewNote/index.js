@@ -8,8 +8,7 @@ const emptyNote = {
   important: false
 }
 
-export default function NewNote({clickOnButton = () => {}}) {
-
+export default function NewNote ({ clickOnButton = () => {} }) {
   const [newNote, setNewNote] = useState(emptyNote)
 
   const handleOnChange = (ev) => {
@@ -26,7 +25,7 @@ export default function NewNote({clickOnButton = () => {}}) {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className='form'>
       <input onChange={handleOnChange} name='note' type='text' placeholder='Type new note here' value={newNote.content} />
       <button>Create</button>
     </form>

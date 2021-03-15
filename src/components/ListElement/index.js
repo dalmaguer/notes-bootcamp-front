@@ -2,12 +2,12 @@ import React from 'react'
 // import {PropTypes} from 'prop-types'
 import './styles.css'
 
-export default function ListElement({content, date, important}) {
+export default function ListElement ({ content, date, important }) {
   return (
-    <li className="list-item">
+    <li className='list-item'>
       <div>{content} {important && '⭐'}</div>
       <small>{date}</small>
-      <div className="separator" />
+      <div className='separator' />
     </li>
   )
 }

@@ -1,43 +1,61 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import NewNote from './components/NewNote'
 import NotesList from './components/NotesList'
-import _notes from './data/notes'
-import {getNextId} from './utils' 
+// import _notes from './data/notes'
+import { getNextId } from './utils'
+import { getAll, newNote } from './services/notes'
+import Loading from './components/Loading'
 
 import './App.css'
 
-function App() {
-
-  const [notes, setNotes] = useState(_notes)
+function App () {
+  const [notes, setNotes] = useState([])
   const [showAll, setShowAll] = useState(true)
+  const [loading, setLoading] = useState(false)
 
-  useEffect(()=>{
-    // do something here
-    // console.log(notes)
+  useEffect(() => {
+    setLoading(true)
+    getAll()
+      .then(notesFromApi => {
+        setNotes(notesFromApi)
+      })
+      .finally(() => {
+        setLoading(false)
+      })
     return () => {}
-  },[notes])
+  }, [])
 
-  const handleNewNoteClick = (newNote) => {
-    setNotes([...notes, {
-      ...newNote,
-      id: getNextId(notes)
-    }])
+  const handleNewNoteClick = (_newNote) => {
+    newNote(_newNote).then(response => {
+      setNotes([...notes, {
+        ...response,
+        id: getNextId(notes)
+      }])
+    })
   }
 
   const toggleShowAll = () => {
     setShowAll((prev) => !prev)
   }
 
-  const filteredNotes = showAll ? notes : notes.filter(n => n.important===true)
+  const filteredNotes = showAll ? notes : notes.filter(n => n.important === true)
 
   return (
-    <div className="App">
+    <div className='App'>
       <h1>My Notes:</h1>
       <button onClick={toggleShowAll}>{showAll ? 'Show only importants' : 'Show all'}</button>
-      <NotesList notes={filteredNotes} />
-      <NewNote clickOnButton={handleNewNoteClick} />      
+
+      <div>
+        <small>{`(${filteredNotes.length} notes)`}</small>
+      </div>
+
+      {loading
+        ? <Loading />
+        : <NotesList notes={filteredNotes} />}
+
+      <NewNote clickOnButton={handleNewNoteClick} />
     </div>
   )
 }
 
-export default App;
+export default App
