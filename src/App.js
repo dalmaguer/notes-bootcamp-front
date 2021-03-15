@@ -11,16 +11,14 @@ function App() {
   const [notes, setNotes] = useState(_notes)
 
   useEffect(()=>{
-    console.log(notes)
+    // do something here
     return () => {}
   },[notes])
 
-  const handleNewNoteClick = (content) => {
+  const handleNewNoteClick = (newNote) => {
     setNotes([...notes, {
-      id: getNextId(notes),
-      content,
-      date: new Date().toISOString(),
-      important: false
+      ...newNote,
+      id: getNextId(notes)
     }])
   }
 

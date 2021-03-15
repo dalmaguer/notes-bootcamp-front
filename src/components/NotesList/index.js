@@ -9,7 +9,7 @@ export default function NotesList({notes = []}) {
 
   return (
     <ul>
-      { notes.map(note => <ListElement key={note.id} content={note.content} date={note.date} /> ) }
+      { notes.map(note => <ListElement key={note.id} {...note} /> ) }
     </ul>
   )
 }
