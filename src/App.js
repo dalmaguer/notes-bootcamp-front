@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import NewNote from './components/NewNote'
 import NotesList from './components/NotesList'
-// import _notes from './data/notes'
 import { getNextId } from './utils'
 import { getAllWithFetch, newNotesWithFetch } from './services/notes'
 import Loading from './components/Loading'
