@@ -2,11 +2,14 @@ import axios from 'axios'
 
 const baseUrl = 'https://jsonplaceholder.typicode.com/posts'
 
+// ------------ Fetch ------------------------
+
 export const getAllWithFetch = async () => {
   return fetch(baseUrl)
     .then(response => response.json())
     .then(json => {
-      const normalizedData = json.map(item => normalizeDataFromApi(item))
+      const normalizedData = json.map(
+        item => normalizeDataFromApi(item))
       return normalizedData
     })
     .catch(error => {
@@ -15,10 +18,30 @@ export const getAllWithFetch = async () => {
     })
 }
 
+export const newNotesWithFetch = async (newNote) => {
+  if (newNote) {
+    const normalized = normalizeDataForApi(newNote)
+    return fetch(baseUrl, {
+      method: 'POST',
+      body: JSON.stringify(normalized),
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8'
+      }
+    })
+      .then(response => response.json())
+      .then(json => {
+        return normalizeDataFromApi(json)
+      })
+  }
+}
+
+// --------- Axios ---------------
+
 export const getAll = async () => {
   return axios.get(baseUrl)
     .then(response => {
-      const normalizedData = response.data.map(item => normalizeDataFromApi(item))
+      const normalizedData = response.data.map(
+        item => normalizeDataFromApi(item))
       return normalizedData
     })
     .catch(error => {
@@ -30,7 +53,6 @@ export const getAll = async () => {
 export const newNote = async (newNote) => {
   if (newNote) {
     const normalized = normalizeDataForApi(newNote)
-    // console.log(newNote, normalized)
     return axios.post(baseUrl, normalized)
       .then(response => {
         return normalizeDataFromApi(response.data)

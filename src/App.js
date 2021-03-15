@@ -3,7 +3,7 @@ import NewNote from './components/NewNote'
 import NotesList from './components/NotesList'
 // import _notes from './data/notes'
 import { getNextId } from './utils'
-import { getAll, newNote } from './services/notes'
+import { getAllWithFetch, newNotesWithFetch } from './services/notes'
 import Loading from './components/Loading'
 
 import './App.css'
@@ -15,7 +15,7 @@ function App () {
 
   useEffect(() => {
     setLoading(true)
-    getAll()
+    getAllWithFetch()
       .then(notesFromApi => {
         setNotes(notesFromApi)
       })
@@ -26,7 +26,7 @@ function App () {
   }, [])
 
   const handleNewNoteClick = (_newNote) => {
-    newNote(_newNote).then(response => {
+    newNotesWithFetch(_newNote).then(response => {
       setNotes([...notes, {
         ...response,
         id: getNextId(notes)
