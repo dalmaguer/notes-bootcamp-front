@@ -19,15 +19,16 @@ export default function NewNote({clickOnButton = () => {}}) {
     })
   }
 
-  const handleClick = () => {
+  const handleSubmit = (ev) => {
+    ev.preventDefault()
     clickOnButton(newNote)
     setNewNote(emptyNote)
   }
 
   return (
-    <div>
+    <form onSubmit={handleSubmit}>
       <input onChange={handleOnChange} name='note' type='text' placeholder='Type new note here' value={newNote.content} />
-      <button onClick={handleClick}>Create</button>
-    </div>
+      <button>Create</button>
+    </form>
   )
 }

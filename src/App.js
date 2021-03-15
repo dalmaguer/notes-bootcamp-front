@@ -12,6 +12,7 @@ function App() {
 
   useEffect(()=>{
     // do something here
+    // console.log(notes)
     return () => {}
   },[notes])
 
