@@ -6,11 +6,16 @@ import { getAllWithFetch, newNotesWithFetch } from './services/notes'
 import Loading from './components/Loading'
 
 import './App.css'
+import AlertMessage from './components/AlertMessage'
 
 function App () {
   const [notes, setNotes] = useState([])
   const [showAll, setShowAll] = useState(true)
   const [loading, setLoading] = useState(false)
+  const [alertMessage, setAlertMessage] = useState({
+    message: '',
+    type: 'error'
+  })
 
   useEffect(() => {
     setLoading(true)
@@ -18,11 +23,27 @@ function App () {
       .then(notesFromApi => {
         setNotes(notesFromApi)
       })
+      .catch(error => {
+        setAlertMessage({
+          message: error,
+          type: 'error'
+        })
+      })
       .finally(() => {
         setLoading(false)
       })
     return () => {}
   }, [])
+
+  useEffect(() => {
+    const to = setTimeout(() => {
+      setAlertMessage({
+        ...alertMessage,
+        message: ''
+      })
+    }, 5000)
+    return () => clearTimeout(to)
+  }, [alertMessage])
 
   const handleNewNoteClick = (_newNote) => {
     newNotesWithFetch(_newNote).then(response => {
@@ -30,6 +51,10 @@ function App () {
         ...response,
         id: getNextId(notes)
       }])
+      setAlertMessage({
+        message: 'Operation was completed successfully!',
+        type: 'success'
+      })
     })
   }
 
@@ -53,6 +78,8 @@ function App () {
         : <NotesList notes={filteredNotes} />}
 
       <NewNote clickOnButton={handleNewNoteClick} />
+
+      {alertMessage.message !== '' && <AlertMessage {...alertMessage} />}
     </div>
   )
 }

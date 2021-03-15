@@ -5,6 +5,7 @@ const baseUrl = 'https://jsonplaceholder.typicode.com/posts'
 // ------------ Fetch ------------------------
 
 export const getAllWithFetch = async () => {
+  // eslint-disable-next-line no-undef
   return fetch(baseUrl)
     .then(response => response.json())
     .then(json => {
@@ -21,6 +22,7 @@ export const getAllWithFetch = async () => {
 export const newNotesWithFetch = async (newNote) => {
   if (newNote) {
     const normalized = normalizeDataForApi(newNote)
+    // eslint-disable-next-line no-undef
     return fetch(baseUrl, {
       method: 'POST',
       body: JSON.stringify(normalized),
@@ -31,6 +33,9 @@ export const newNotesWithFetch = async (newNote) => {
       .then(response => response.json())
       .then(json => {
         return normalizeDataFromApi(json)
+      })
+      .catch(error => {
+        console.log(error)
       })
   }
 }
