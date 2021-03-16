@@ -1,16 +1,22 @@
 .alert-message{
   position: fixed;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
   bottom: 0;
   left: 0;
   width: 100vw;
   font-weight: bold;
-  padding: 2em;
+  height: 80px;
   background-color: #333;
-  transition: all 0.5s ease-out;
   box-sizing: border-box;
+  transform: translateY(80px);
   opacity: 0;
+  transition: all 0.5s ease-out;
 }
 .alert-message.active{
+  transform: translateY(0px);
   opacity: 1;
 }
 .alert-message.error{
@@ -21,4 +27,16 @@
 }
 .alert-message.info{
   color: dodgerblue;
+}
+.close-btn {
+  position: absolute;
+  top: 5px;
+  right: 20px;
+  border: none;
+  background-color: transparent;
+  color: grey;
+  outline: unset;
+}
+.close-btn:hover{
+  transform: scale(1.3);
 }

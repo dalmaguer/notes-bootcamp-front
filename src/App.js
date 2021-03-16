@@ -4,6 +4,8 @@ import NotesList from './components/NotesList'
 import { getNextId } from './utils'
 import { getAllWithFetch, newNotesWithFetch } from './services/notes'
 import Loading from './components/Loading'
+import { useGlobalContext } from './hooks/useGlobalContext'
+import { ALERT_MESSAGES } from './constants'
 
 import './App.css'
 import AlertMessage from './components/AlertMessage'
@@ -12,10 +14,7 @@ function App () {
   const [notes, setNotes] = useState([])
   const [showAll, setShowAll] = useState(true)
   const [loading, setLoading] = useState(false)
-  const [alertMessage, setAlertMessage] = useState({
-    message: '',
-    type: 'error'
-  })
+  const { setAlertMessage } = useGlobalContext()
 
   useEffect(() => {
     setLoading(true)
@@ -24,10 +23,8 @@ function App () {
         setNotes(notesFromApi)
       })
       .catch(error => {
-        setAlertMessage({
-          message: error,
-          type: 'error'
-        })
+        console.log(error)
+        setAlertMessage(ALERT_MESSAGES.ERROR)
       })
       .finally(() => {
         setLoading(false)
@@ -35,27 +32,19 @@ function App () {
     return () => {}
   }, [])
 
-  useEffect(() => {
-    const to = setTimeout(() => {
-      setAlertMessage({
-        ...alertMessage,
-        message: ''
-      })
-    }, 5000)
-    return () => clearTimeout(to)
-  }, [alertMessage])
-
   const handleNewNoteClick = (_newNote) => {
-    newNotesWithFetch(_newNote).then(response => {
-      setNotes([...notes, {
-        ...response,
-        id: getNextId(notes)
-      }])
-      setAlertMessage({
-        message: 'Operation was completed successfully!',
-        type: 'success'
+    newNotesWithFetch(_newNote)
+      .then(response => {
+        setNotes([...notes, {
+          ...response,
+          id: getNextId(notes)
+        }])
+        setAlertMessage(ALERT_MESSAGES.CREATED_SUCCESSFULLY)
       })
-    })
+      .catch(error => {
+        console.log(error)
+        setAlertMessage(ALERT_MESSAGES.ERROR)
+      })
   }
 
   const toggleShowAll = () => {
@@ -79,7 +68,7 @@ function App () {
 
       <NewNote clickOnButton={handleNewNoteClick} />
 
-      {alertMessage.message !== '' && <AlertMessage {...alertMessage} />}
+      <AlertMessage />
     </div>
   )
 }

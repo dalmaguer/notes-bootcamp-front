@@ -13,10 +13,6 @@ export const getAllWithFetch = async () => {
         item => normalizeDataFromApi(item))
       return normalizedData
     })
-    .catch(error => {
-      console.log(error)
-      return []
-    })
 }
 
 export const newNotesWithFetch = async (newNote) => {
@@ -34,9 +30,6 @@ export const newNotesWithFetch = async (newNote) => {
       .then(json => {
         return normalizeDataFromApi(json)
       })
-      .catch(error => {
-        console.log(error)
-      })
   }
 }
 
@@ -49,10 +42,6 @@ export const getAll = async () => {
         item => normalizeDataFromApi(item))
       return normalizedData
     })
-    .catch(error => {
-      console.log(error)
-      return []
-    })
 }
 
 export const newNote = async (newNote) => {
@@ -61,10 +50,6 @@ export const newNote = async (newNote) => {
     return axios.post(baseUrl, normalized)
       .then(response => {
         return normalizeDataFromApi(response.data)
-      })
-      .catch(error => {
-        console.log(error)
-        return []
       })
   }
 }

@@ -1,21 +1,31 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
+import { useGlobalContext } from '../../hooks/useGlobalContext'
 import './styles.css'
 
-export default function AlertMessage ({ message = 'Something has happened!', type = 'error' }) {
-  const [display, setDisplay] = useState(true)
+export default function AlertMessage () {
+  const { alertMessage, setAlertMessage } = useGlobalContext()
+  const { message, type } = alertMessage
 
   useEffect(() => {
-    setTimeout(() => {
-      setDisplay(false)
-      return () => setDisplay(false)
-    }, 4000)
-  }, [])
+    if (message !== '') {
+      setTimeout(() => {
+        setAlertMessage({ message: '' })
+        return () => setAlertMessage({ message: '' })
+      }, 4000)
+    }
+  }, [alertMessage])
 
-  const active = display ? 'active' : ''
+  const onClose = () => {
+    setAlertMessage({ message: '' })
+  }
+
+  const activeClass = message !== '' ? 'active' : ''
 
   return (
-    <div className={`alert-message ${type} ${active}`}>
+
+    <div className={`alert-message ${type || 'error'} ${activeClass}`}>
       {message}
+      <button className='close-btn' onClick={onClose}>X</button>
     </div>
   )
 }

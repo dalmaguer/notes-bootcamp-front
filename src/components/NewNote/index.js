@@ -26,7 +26,7 @@ export default function NewNote ({ clickOnButton = () => {} }) {
 
   return (
     <form onSubmit={handleSubmit} className='form'>
-      <input onChange={handleOnChange} name='note' type='text' placeholder='Type new note here' value={newNote.content} />
+      <input onChange={handleOnChange} required name='note' type='text' placeholder='Type new note here' value={newNote.content} />
       <button>Create</button>
     </form>
   )
