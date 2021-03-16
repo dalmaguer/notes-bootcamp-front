@@ -35,7 +35,7 @@ function App () {
   const handleNewNoteClick = (_newNote) => {
     newNotesWithFetch(_newNote)
       .then(response => {
-        setNotes([...notes, {
+        setNotes(prevNotes => [...prevNotes, {
           ...response,
           id: getNextId(notes)
         }])
@@ -64,7 +64,7 @@ function App () {
 
       {loading
         ? <Loading />
-        : <NotesList notes={filteredNotes} />}
+        : <NotesList notes={filteredNotes} setNotes={setNotes} />}
 
       <NewNote clickOnButton={handleNewNoteClick} />
 

@@ -2,10 +2,13 @@ import React from 'react'
 // import {PropTypes} from 'prop-types'
 import './styles.css'
 
-export default function ListElement ({ content, date, important }) {
+export default function ListElement ({ id, content, date, important, setImportant }) {
   return (
     <li className='list-item'>
-      <div>{content} {important && '⭐'}</div>
+      <div>
+        {content} {important && '⭐'}
+        <button onClick={() => setImportant(id)}>{important ? 'Not important' : 'Make important'}</button>
+      </div>
       <small>{date}</small>
       <div className='separator' />
     </li>
