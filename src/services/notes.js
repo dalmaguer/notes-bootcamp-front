@@ -13,7 +13,7 @@ export const getAllWithFetch = async () => {
     })
 }
 
-export const newNotesWithFetch = async (newNote) => {
+export const newNoteWithFetch = async (newNote) => {
   if (newNote) {
     // eslint-disable-next-line no-undef
     return fetch(baseUrl, {

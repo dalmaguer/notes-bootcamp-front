@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
+import LoginForm from './components/LoginForm'
 import NewNote from './components/NewNote'
 import NotesList from './components/NotesList'
 import { getNextId } from './utils'
-import { getAllWithFetch, newNotesWithFetch } from './services/notes'
+import { getAll, newNote } from './services/notes'
 import Loading from './components/Loading'
 import { useGlobalContext } from './hooks/useGlobalContext'
 import { ALERT_MESSAGES } from './constants'
@@ -18,7 +19,7 @@ function App () {
 
   useEffect(() => {
     setLoading(true)
-    getAllWithFetch()
+    getAll()
       .then(notesFromApi => {
         setNotes(notesFromApi)
       })
@@ -32,18 +33,34 @@ function App () {
     return () => {}
   }, [])
 
-  const handleNewNoteClick = (_newNote) => {
-    newNotesWithFetch(_newNote)
+  const handleCreateNewNote = (_newNote) => {
+    newNote(_newNote)
       .then(response => {
+        const { error } = response
+        if (error) {
+          setAlertMessage({
+            type: 'error',
+            message: error
+          })
+          return
+        }
         setNotes(prevNotes => [...prevNotes, {
           ...response,
           id: getNextId(notes)
         }])
-        setAlertMessage(ALERT_MESSAGES.CREATED_SUCCESSFULLY)
+        setAlertMessage(ALERT_MESSAGES.SUCCESS)
       })
-      .catch(error => {
-        console.log(error)
-        setAlertMessage(ALERT_MESSAGES.ERROR)
+      .catch(err => {
+        console.log({ err })
+        const { response } = err
+        const { error } = response.data
+        if (error) {
+          setAlertMessage({
+            type: 'error',
+            title: 'ERROR',
+            message: error
+          })
+        }
       })
   }
 
@@ -58,6 +75,8 @@ function App () {
       <h1>My Notes:</h1>
       <button onClick={toggleShowAll}>{showAll ? 'Show only importants' : 'Show all'}</button>
 
+      <LoginForm />
+
       <div>
         <small>{`(${filteredNotes.length} notes)`}</small>
       </div>
@@ -66,7 +85,7 @@ function App () {
         ? <Loading />
         : <NotesList notes={filteredNotes} setNotes={setNotes} />}
 
-      <NewNote clickOnButton={handleNewNoteClick} />
+      <NewNote createNewNote={handleCreateNewNote} />
 
       <AlertMessage />
     </div>

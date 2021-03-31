@@ -4,26 +4,30 @@ import './styles.css'
 
 export default function AlertMessage () {
   const { alertMessage, setAlertMessage } = useGlobalContext()
-  const { message, type } = alertMessage
+  const { type, title, message } = alertMessage
+
+  const cleanAlertMessage = () => {
+    setAlertMessage({ ...alertMessage, message: '' })
+  }
 
   useEffect(() => {
     if (message !== '') {
       setTimeout(() => {
-        setAlertMessage({ message: '' })
-        return () => setAlertMessage({ message: '' })
+        cleanAlertMessage()
+        return () => cleanAlertMessage()
       }, 4000)
     }
   }, [alertMessage])
 
   const onClose = () => {
-    setAlertMessage({ message: '' })
+    cleanAlertMessage()
   }
 
   const activeClass = message !== '' ? 'active' : ''
 
   return (
-
     <div className={`alert-message ${type || 'error'} ${activeClass}`}>
+      {title && <div className='alert-title'>{title}</div>}
       {message}
       <button className='close-btn' onClick={onClose}>X</button>
     </div>

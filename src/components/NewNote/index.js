@@ -1,14 +1,9 @@
 import React, { useState } from 'react'
 import './styles.css'
 
-const emptyNote = {
-  id: '-1',
-  content: '',
-  date: new Date().toISOString(),
-  important: false
-}
+const emptyNote = {}
 
-export default function NewNote ({ clickOnButton = () => {} }) {
+export default function NewNote ({ createNewNote = () => {} }) {
   const [newNote, setNewNote] = useState(emptyNote)
 
   const handleOnChange = (ev) => {
@@ -20,13 +15,13 @@ export default function NewNote ({ clickOnButton = () => {} }) {
 
   const handleSubmit = (ev) => {
     ev.preventDefault()
-    clickOnButton(newNote)
+    createNewNote(newNote)
     setNewNote(emptyNote)
   }
 
   return (
     <form onSubmit={handleSubmit} className='form'>
-      <input onChange={handleOnChange} required name='note' type='text' placeholder='Type new note here' value={newNote.content} />
+      <input onChange={handleOnChange} name='note' type='text' placeholder='Type new note here' value={newNote.content || ''} />
       <button>Create</button>
     </form>
   )

@@ -1,0 +1,12 @@
+.loggin-form{
+  padding: 0 1em 1em;
+  margin: 1em auto;
+  max-width: 200px;
+  border: solid 1px grey;
+}
+.loggin-form input{
+  display: block;
+  margin-bottom: 1em;
+  width: 100%;
+  box-sizing: border-box;
+}

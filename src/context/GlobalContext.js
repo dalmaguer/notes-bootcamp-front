@@ -4,6 +4,7 @@ const Context = createContext()
 
 export function GlobalContextProvider ({ children }) {
   const [alertMessage, setAlertMessage] = useState({
+    type: '',
     message: ''
   })
 

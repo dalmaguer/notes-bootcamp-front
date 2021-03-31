@@ -1,10 +1,12 @@
 export const ALERT_MESSAGES = {
-  CREATED_SUCCESSFULLY: {
-    message: 'Note was created successfully 🚀',
-    type: 'success'
-  },
   ERROR: {
-    message: 'Something has happened 🤔',
-    type: 'error'
+    type: 'error',
+    title: 'ERROR',
+    message: 'Something has happened 🤔'
+  },
+  SUCCESS: {
+    type: 'success',
+    title: 'OK',
+    message: 'Action completed successfully 🚀'
   }
 }
