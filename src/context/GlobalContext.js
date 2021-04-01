@@ -1,4 +1,5 @@
-import { createContext, useState } from 'react'
+import { createContext, useEffect, useState } from 'react'
+import { LOCALSTORAGEINDEX } from '../constants'
 
 const Context = createContext()
 
@@ -7,12 +8,22 @@ export function GlobalContextProvider ({ children }) {
     type: '',
     message: ''
   })
+  const [authenticatedUser, setAuthenticatedUser] = useState(null)
+
+  useEffect(() => {
+    const user = JSON.parse(window.localStorage.getItem(LOCALSTORAGEINDEX.user))
+    if (user && user.token) {
+      setAuthenticatedUser(user)
+    }
+  }, [])
 
   return (
     <Context.Provider
       value={{
         alertMessage,
-        setAlertMessage
+        authenticatedUser,
+        setAlertMessage,
+        setAuthenticatedUser
       }}
     >
       {children}

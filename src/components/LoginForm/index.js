@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
-// import { login } from '../../services/users'
+import { login } from '../../services/login'
+import { useGlobalContext } from '../../hooks/useGlobalContext'
+import { LOCALSTORAGEINDEX } from '../../constants'
 
 import './styles.css'
 
@@ -11,10 +13,26 @@ const initFormData = {
 export default function LoginForm () {
   const [formData, setFormData] = useState(initFormData)
 
-  const handleSubmit = (ev) => {
+  const { setAlertMessage, setAuthenticatedUser } = useGlobalContext()
+
+  const handleSubmit = async (ev) => {
     ev.preventDefault()
-    console.log('Submit', { formData })
-    // TODO: Login form services
+    try {
+      const user = await login(formData)
+      if (user.token) {
+        window.localStorage.setItem(
+          LOCALSTORAGEINDEX.user,
+          JSON.stringify(user)
+        )
+        setAuthenticatedUser(user)
+      }
+    } catch (err) {
+      console.log(err)
+      setAlertMessage({
+        type: 'error',
+        message: 'Wrong credentials'
+      })
+    }
     setFormData(initFormData)
   }
 

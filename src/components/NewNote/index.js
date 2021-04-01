@@ -20,7 +20,7 @@ export default function NewNote ({ createNewNote = () => {} }) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className='form'>
+    <form onSubmit={handleSubmit} className='newnote-form'>
       <input onChange={handleOnChange} name='note' type='text' placeholder='Type new note here' value={newNote.content || ''} />
       <button>Create</button>
     </form>

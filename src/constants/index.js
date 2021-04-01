@@ -10,3 +10,7 @@ export const ALERT_MESSAGES = {
     message: 'Action completed successfully 🚀'
   }
 }
+
+export const LOCALSTORAGEINDEX = {
+  user: 'authenticatedUser'
+}

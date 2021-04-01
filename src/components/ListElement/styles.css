@@ -2,7 +2,12 @@
   color: grey;
   list-style: none; 
   text-align: left;
-} 
+}
+.list-item__main-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between; 
+}
 .separator {
   height: 1;
   padding-top: 10px;
