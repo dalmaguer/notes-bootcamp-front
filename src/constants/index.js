@@ -1,12 +1,12 @@
 export const ALERT_MESSAGES = {
   ERROR: {
     type: 'error',
-    title: 'ERROR',
+    title: '',
     message: 'Something has happened 🤔'
   },
   SUCCESS: {
     type: 'success',
-    title: 'OK',
+    title: '',
     message: 'Action completed successfully 🚀'
   }
 }

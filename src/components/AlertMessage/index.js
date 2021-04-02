@@ -11,12 +11,14 @@ export default function AlertMessage () {
   }
 
   useEffect(() => {
+    let to
     if (message !== '') {
-      setTimeout(() => {
+      to = window.setTimeout(() => {
         cleanAlertMessage()
-        return () => cleanAlertMessage()
+        // return () => cleanAlertMessage()
       }, 4000)
     }
+    return () => window.clearTimeout(to)
   }, [alertMessage])
 
   const onClose = () => {
@@ -27,7 +29,7 @@ export default function AlertMessage () {
 
   return (
     <div className={`alert-message ${type || 'error'} ${activeClass}`}>
-      {title && <div className='alert-title'>{title}</div>}
+      {title && title !== '' && <div className='alert-title'>{title}</div>}
       {message}
       <button className='close-btn' onClick={onClose}>X</button>
     </div>

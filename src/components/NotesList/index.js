@@ -29,12 +29,9 @@ export default function NotesList ({ notes = [], setNotes = () => {} }) {
     const { token } = authenticatedUser
 
     updateNote(id, updatedNote, { token })
-      .then(response => {
-        console.log(response)
-      })
       .catch(err => {
         console.log(err)
-        // todo: handle error message
+      // todo: handle error message
       })
 
     setNotes(newNotes)

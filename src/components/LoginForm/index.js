@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { login } from '../../services/login'
 import { useGlobalContext } from '../../hooks/useGlobalContext'
+import { useAlertMessage } from '../../hooks/useAlertMessage'
 import { LOCALSTORAGEINDEX } from '../../constants'
 
 import './styles.css'
@@ -13,7 +14,8 @@ const initFormData = {
 export default function LoginForm () {
   const [formData, setFormData] = useState(initFormData)
 
-  const { setAlertMessage, setAuthenticatedUser } = useGlobalContext()
+  const { setAuthenticatedUser } = useGlobalContext()
+  const { errorMessage } = useAlertMessage()
 
   const handleSubmit = async (ev) => {
     ev.preventDefault()
@@ -28,20 +30,12 @@ export default function LoginForm () {
       }
     } catch (err) {
       console.log(err)
-      setAlertMessage({
-        type: 'error',
+      errorMessage({
         message: 'Wrong credentials'
       })
     }
     setFormData(initFormData)
   }
-
-  useEffect(() => {
-    if (!formData.username) {
-      console.log('You must logged in')
-    }
-    return () => {}
-  }, [])
 
   return (
     <form className='loggin-form' onSubmit={handleSubmit}>
