@@ -4,3 +4,7 @@ ul.notes-list {
   margin-left: auto;
   margin-right: auto;
 }
+
+ul.notes-list li{
+  padding: 0.2em;
+}

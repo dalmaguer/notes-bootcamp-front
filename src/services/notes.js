@@ -62,7 +62,6 @@ export const updateNote = (id, updatedNote) => {
 }
 
 export const deleteNote = (id) => {
-  console.log({ id })
   return axios.delete(`${baseUrl}/${id}`, config)
     .then(response => {
       return response.data
