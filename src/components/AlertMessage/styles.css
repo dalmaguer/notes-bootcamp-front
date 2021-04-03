@@ -13,6 +13,7 @@
   color: #fff;
   padding: 1em;
   box-sizing: border-box;
+  text-align: center;
   transform: translateY(-160px);
   opacity: 0;
   transition: all 0.5s ease-out;

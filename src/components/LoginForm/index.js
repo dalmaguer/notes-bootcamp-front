@@ -25,7 +25,7 @@ export default function LoginForm () {
     return () => window.clearTimeout(to)
   })
 
-  const handleSubmit = async (ev) => {
+  const handleLogin = async (ev) => {
     ev.preventDefault()
     try {
       const user = await login(formData)
@@ -48,7 +48,7 @@ export default function LoginForm () {
   if (!display) { return null }
 
   return (
-    <form className='loggin-form' onSubmit={handleSubmit}>
+    <form className='loggin-form' onSubmit={handleLogin}>
       <p>Login</p>
       <input
         type='text'

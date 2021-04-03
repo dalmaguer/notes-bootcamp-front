@@ -1,9 +1,12 @@
 import React from 'react'
+import ThreeDots from './ThreeDots'
+
+import './styles.css'
 
 export default function Loading () {
   return (
-    <p>
-      Loading...
-    </p>
+    <div className='loading-container'>
+      <ThreeDots fill='grey' />
+    </div>
   )
 }

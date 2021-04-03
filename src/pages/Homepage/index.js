@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react'
 import NewNote from '../../components/NewNote'
 import NotesList from '../../components/NotesList'
 import {
-  setToken,
   getAll,
   createNote,
   updateNote,
-  deleteNote
+  deleteNote,
+  setToken
 } from '../../services/notes'
 import Loading from '../../components/Loading'
 import { useAuthenticatedUser } from '../../hooks/useGlobalContext'
@@ -17,7 +17,7 @@ export default function Homepage () {
   const [notes, setNotes] = useState([])
   const [showAll, setShowAll] = useState(true)
   const [loading, setLoading] = useState(false)
-  const { authenticatedUser, setAuthenticatedUser } = useAuthenticatedUser()
+  const { setAuthenticatedUser } = useAuthenticatedUser()
   const { successMessage, errorMessage } = useAlertMessage()
 
   useEffect(() => {
@@ -32,13 +32,10 @@ export default function Homepage () {
       .finally(() => {
         setLoading(false)
       })
-
-    const { token } = authenticatedUser
-    setToken(token)
   }, [])
 
   const handleCreateNewNote = (_newNote) => {
-    createNote(_newNote)
+    return createNote(_newNote)
       .then(response => {
         const { error } = response
         if (error) {
@@ -48,16 +45,17 @@ export default function Homepage () {
         setNotes(prevNotes => [...prevNotes, {
           ...response
         }])
-        successMessage()
+        successMessage({ message: 'New note created successfully' })
       })
-      .catch(error => {
-        errorMessage({ error })
+      .catch(() => {
+        errorMessage()
       })
   }
 
   const handleLogOut = () => {
-    window.localStorage.removeItem(LOCALSTORAGEINDEX.user)
     setAuthenticatedUser(null)
+    setToken('')
+    window.localStorage.removeItem(LOCALSTORAGEINDEX.user)
   }
 
   const toggleShowAll = () => {

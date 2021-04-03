@@ -1,3 +1,7 @@
 .newnote-form {
   margin: 1.5em 0;
 }
+aside.emoji-picker-react{
+  position: absolute;
+  z-index: 1;
+}

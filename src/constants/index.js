@@ -1,7 +1,7 @@
 export const ALERT_MESSAGES = {
   ERROR: {
     type: 'error',
-    title: '',
+    title: 'OOPS!',
     message: 'Something has happened 🤔'
   },
   SUCCESS: {
