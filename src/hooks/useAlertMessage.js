@@ -5,7 +5,7 @@ export function useAlertMessage () {
   const { setAlertMessage } = useGlobalContext()
 
   const successMessage = (objParam = ALERT_MESSAGES.SUCCESS) => {
-    const { message, title = '' } = objParam
+    const { message = 'SUCCESS', title = '' } = objParam
     setAlertMessage({
       type: 'success',
       title,
@@ -13,17 +13,25 @@ export function useAlertMessage () {
     })
   }
 
+  const infoMessage = (objParam) => {
+    const { message = '', title = '' } = objParam
+    setAlertMessage({
+      type: 'info',
+      title,
+      message
+    })
+  }
+
   const errorMessage = (objParam = ALERT_MESSAGES.ERROR) => {
-    let { error = ALERT_MESSAGES.ERROR, title = '' } = objParam
+    const { error = ALERT_MESSAGES.ERROR, title = '' } = objParam
     const { message } = objParam
-    if (message) {
-      error = message
-    }
 
     const { response } = error
 
-    let errorMessage = 'Error'
-    if (response && response.data && response.data.error) {
+    let errorMessage
+    if (message) {
+      errorMessage = message
+    } else if (response && response.data && response.data.error) {
       errorMessage = response.data.error
     } else if (error.message) {
       errorMessage = message
@@ -39,6 +47,7 @@ export function useAlertMessage () {
 
   return {
     successMessage,
-    errorMessage
+    errorMessage,
+    infoMessage
   }
 }

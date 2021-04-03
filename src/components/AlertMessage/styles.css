@@ -16,7 +16,7 @@
   transform: translateY(-160px);
   opacity: 0;
   transition: all 0.5s ease-out;
-  box-shadow: -1px 1px 5px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.2);
 }
 .alert-message.active{
   transform: translateY(0px);

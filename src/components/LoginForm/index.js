@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { login } from '../../services/login'
 import { useGlobalContext } from '../../hooks/useGlobalContext'
 import { useAlertMessage } from '../../hooks/useAlertMessage'
@@ -16,6 +16,14 @@ export default function LoginForm () {
 
   const { setAuthenticatedUser } = useGlobalContext()
   const { errorMessage } = useAlertMessage()
+  const [display, setDisplay] = useState(false)
+
+  useEffect(() => {
+    const to = window.setTimeout(() => {
+      setDisplay(true)
+    }, 1)
+    return () => window.clearTimeout(to)
+  })
 
   const handleSubmit = async (ev) => {
     ev.preventDefault()
@@ -31,11 +39,13 @@ export default function LoginForm () {
     } catch (err) {
       console.log(err)
       errorMessage({
-        message: 'Wrong credentials'
+        error: 'Wrong credentials'
       })
     }
     setFormData(initFormData)
   }
+
+  if (!display) { return null }
 
   return (
     <form className='loggin-form' onSubmit={handleSubmit}>

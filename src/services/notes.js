@@ -2,6 +2,16 @@ import axios from 'axios'
 
 const baseUrl = 'http://localhost:3001/api/notes'
 
+let config = {}
+
+export const setToken = token => {
+  config = {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  }
+}
+
 // ------------ Fetch ------------------------
 
 export const getAllWithFetch = () => {
@@ -37,25 +47,23 @@ export const getAll = () => {
     })
 }
 
-export const createNote = (newNote, { token }) => {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  }
+export const createNote = (newNote) => {
   return axios.post(baseUrl, newNote, config)
     .then(response => {
       return response.data
     })
 }
 
-export const updateNote = (id, updatedNote, { token }) => {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  }
+export const updateNote = (id, updatedNote) => {
   return axios.put(`${baseUrl}/${id}`, updatedNote, config)
+    .then(response => {
+      return response.data
+    })
+}
+
+export const deleteNote = (id) => {
+  console.log({ id })
+  return axios.delete(`${baseUrl}/${id}`, config)
     .then(response => {
       return response.data
     })

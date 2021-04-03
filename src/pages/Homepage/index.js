@@ -1,17 +1,23 @@
 import React, { useEffect, useState } from 'react'
 import NewNote from '../../components/NewNote'
 import NotesList from '../../components/NotesList'
-import { getAll, createNote } from '../../services/notes'
+import {
+  setToken,
+  getAll,
+  createNote,
+  updateNote,
+  deleteNote
+} from '../../services/notes'
 import Loading from '../../components/Loading'
 import { useAuthenticatedUser } from '../../hooks/useGlobalContext'
 import { useAlertMessage } from '../../hooks/useAlertMessage'
-// import { ALERT_MESSAGES } from '../../constants'
+import { LOCALSTORAGEINDEX } from '../../constants'
 
 export default function Homepage () {
   const [notes, setNotes] = useState([])
   const [showAll, setShowAll] = useState(true)
   const [loading, setLoading] = useState(false)
-  const { authenticatedUser } = useAuthenticatedUser()
+  const { authenticatedUser, setAuthenticatedUser } = useAuthenticatedUser()
   const { successMessage, errorMessage } = useAlertMessage()
 
   useEffect(() => {
@@ -21,19 +27,18 @@ export default function Homepage () {
         setNotes(notesFromApi)
       })
       .catch(error => {
-        // setAlertMessage(ALERT_MESSAGES.ERROR)
         errorMessage({ error })
       })
       .finally(() => {
         setLoading(false)
       })
-    return () => {}
+
+    const { token } = authenticatedUser
+    setToken(token)
   }, [])
 
   const handleCreateNewNote = (_newNote) => {
-    const { token } = authenticatedUser
-
-    createNote(_newNote, { token })
+    createNote(_newNote)
       .then(response => {
         const { error } = response
         if (error) {
@@ -50,14 +55,55 @@ export default function Homepage () {
       })
   }
 
+  const handleLogOut = () => {
+    window.localStorage.removeItem(LOCALSTORAGEINDEX.user)
+    setAuthenticatedUser(null)
+  }
+
   const toggleShowAll = () => {
     setShowAll((prev) => !prev)
   }
 
   const filteredNotes = showAll ? notes : notes.filter(n => n.important === true)
 
+  const handleChangeImportance = (id) => {
+    let updatedNote
+    const newNotes = notes.map(item => {
+      if (item.id === id) {
+        updatedNote = {
+          ...item,
+          important: !item.important
+        }
+        return updatedNote
+      } else {
+        return item
+      }
+    })
+
+    updateNote(id, updatedNote)
+      .then(() => {
+        setNotes(newNotes)
+      })
+      .catch(error => {
+        errorMessage({ error })
+      })
+  }
+
+  const handleDelete = (id) => {
+    const newNotes = notes.filter(item => item.id !== id)
+    deleteNote(id)
+      .then(() => {
+        setNotes(newNotes)
+      })
+      .catch(error => {
+        errorMessage({ error })
+      })
+  }
+
   return (
     <>
+      <button onClick={handleLogOut}>Logout</button>
+
       <h1>My Notes:</h1>
 
       <button onClick={toggleShowAll}>
@@ -72,7 +118,11 @@ export default function Homepage () {
 
       {loading
         ? <Loading />
-        : <NotesList notes={filteredNotes} setNotes={setNotes} />}
+        : <NotesList
+            notes={filteredNotes}
+            onChangeImportance={handleChangeImportance}
+            onDelete={handleDelete}
+          />}
     </>
   )
 }
