@@ -18,6 +18,7 @@ export default function LoginForm () {
   const { errorMessage } = useAlertMessage()
   const [display, setDisplay] = useState(false)
 
+  // waiting one milisecond tick to render the form
   useEffect(() => {
     const to = window.setTimeout(() => {
       setDisplay(true)

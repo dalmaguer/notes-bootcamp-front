@@ -1,6 +1,5 @@
 import { createContext, useEffect, useState } from 'react'
 import { LOCALSTORAGEINDEX } from '../constants'
-import { setToken } from '../services/notes'
 
 const Context = createContext()
 
@@ -15,7 +14,6 @@ export function GlobalContextProvider ({ children }) {
     const user = JSON.parse(window.localStorage.getItem(LOCALSTORAGEINDEX.user))
     if (user && user.token) {
       setAuthenticatedUser(user)
-      setToken(user.token)
     }
   }, [])
 

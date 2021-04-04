@@ -17,7 +17,7 @@ export default function Homepage () {
   const [notes, setNotes] = useState([])
   const [showAll, setShowAll] = useState(true)
   const [loading, setLoading] = useState(false)
-  const { setAuthenticatedUser } = useAuthenticatedUser()
+  const { authenticatedUser, setAuthenticatedUser } = useAuthenticatedUser()
   const { successMessage, errorMessage } = useAlertMessage()
 
   useEffect(() => {
@@ -32,6 +32,11 @@ export default function Homepage () {
       .finally(() => {
         setLoading(false)
       })
+  }, [])
+
+  useEffect(() => {
+    const { token } = authenticatedUser
+    setToken(token)
   }, [])
 
   const handleCreateNewNote = (_newNote) => {
